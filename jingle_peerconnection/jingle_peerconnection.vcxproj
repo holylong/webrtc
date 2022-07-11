@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="talk\owt\sdk\base\customizedaudiocapturer.cc" />
+    <ClCompile Include="talk\owt\sdk\base\customizedaudiodevicemodule.cc" />
+    <ClCompile Include="talk\owt\sdk\base\customizedframescapturer.cc" />
+    <ClCompile Include="talk\owt\sdk\base\customizedvideodecoderfactory.cc" />
+    <ClCompile Include="talk\owt\sdk\base\customizedvideodecoderproxy.cc" />
+    <ClCompile Include="talk\owt\sdk\base\customizedvideoencoderproxy.cc" />
+    <ClCompile Include="talk\owt\sdk\base\desktopcapturer.cc" />
+    <ClCompile Include="talk\owt\sdk\base\deviceutils.cc" />
+    <ClCompile Include="talk\owt\sdk\base\encodedvideoencoder.cc" />
+    <ClCompile Include="talk\owt\sdk\base\encodedvideoencoderfactory.cc" />
+    <ClCompile Include="talk\owt\sdk\base\exception.cc" />
+    <ClCompile Include="talk\owt\sdk\base\functionalobserver.cc" />
+    <ClCompile Include="talk\owt\sdk\base\globalconfiguration.cc" />
+    <ClCompile Include="talk\owt\sdk\base\ios\networkmonitorios.cc" />
+    <ClCompile Include="talk\owt\sdk\base\localcamerastreamparameters.cc" />
+    <ClCompile Include="talk\owt\sdk\base\logging.cc" />
+    <ClCompile Include="talk\owt\sdk\base\logsinks.cc" />
+    <ClCompile Include="talk\owt\sdk\base\mediautils.cc" />
+    <ClCompile Include="talk\owt\sdk\base\mediautils_unittest.cc" />
+    <ClCompile Include="talk\owt\sdk\base\peerconnectionchannel.cc" />
+    <ClCompile Include="talk\owt\sdk\base\peerconnectiondependencyfactory.cc" />
+    <ClCompile Include="talk\owt\sdk\base\sdputils.cc" />
+    <ClCompile Include="talk\owt\sdk\base\stream.cc" />
+    <ClCompile Include="talk\owt\sdk\base\stringutils.cc" />
+    <ClCompile Include="talk\owt\sdk\base\sysinfo.cc" />
+    <ClCompile Include="talk\owt\sdk\base\test\test.cc" />
+    <ClCompile Include="talk\owt\sdk\base\webrtcvideorendererimpl.cc" />
+    <ClCompile Include="talk\owt\sdk\base\windowcapturer.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\base_allocator.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\d3d11_allocator.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\d3d_allocator.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\msdkvideobase.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\msdkvideodecoder.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\msdkvideodecoderfactory.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\msdkvideoencoder.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\msdkvideoencoderfactory.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\sysmem_allocator.cc" />
+    <ClCompile Include="talk\owt\sdk\base\win\videorendererwin.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\conferenceclient.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\conferencepeerconnectionchannel.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\conferencepublication.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\conferencesocketsignalingchannel.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\conferencesubscription.cc" />
+    <ClCompile Include="talk\owt\sdk\conference\remotemixedstream.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="talk\owt\sdk\conference\conferencepeerconnectionchannel.h" />
+    <ClInclude Include="talk\owt\sdk\conference\conferencesignalingchannelinterface.h" />
+    <ClInclude Include="talk\owt\sdk\conference\conferencesocketsignalingchannel.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C162C5D3-0DD1-4F95-B463-672B9F1ADDC7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>jingle_peerconnection</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;JINGLE_PEERCONNECTION_EXPORTS;_CONSOLE;V8_DEPRECATION_WARNINGS;_WIN32_WINNT=0x0A00;WINVER=0x0A00;NOMINMAX;PSAPI_VERSION=1;_CRT_RAND_S;CERT_CHAIN_PARA_HAS_EXTRA_FIELDS;WIN32_LEAN_AND_MEAN;_ATL_NO_OPENGL;_SECURE_ATL;_HAS_EXCEPTIONS=0;_WINSOCK_DEPRECATED_NO_WARNINGS;CHROMIUM_BUILD;CR_CLANG_REVISION=270823-1;USE_AURA=1;USE_DEFAULT_RENDER_THEME=1;USE_LIBJPEG_TURBO=1;ENABLE_WEBRTC=1;ENABLE_MEDIA_ROUTER=1;ENABLE_PEPPER_CDMS;ENABLE_NOTIFICATIONS;FIELDTRIAL_TESTING_ENABLED;NO_TCMALLOC;__STD_C;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;NTDDI_VERSION=0x0A000000;_USING_V110_SDK71_;ENABLE_TASK_MANAGER=1;ENABLE_EXTENSIONS=1;ENABLE_PDF=1;ENABLE_PLUGIN_INSTALLATION=1;ENABLE_PLUGINS=1;ENABLE_SESSION_SERVICE=1;ENABLE_THEMES=1;ENABLE_PRINTING=1;ENABLE_BASIC_PRINTING=1;ENABLE_PRINT_PREVIEW=1;ENABLE_SPELLCHECK=1;ENABLE_CAPTIVE_PORTAL_DETECTION=1;ENABLE_SUPERVISED_USERS=1;ENABLE_MDNS=1;ENABLE_SERVICE_DISCOVERY=1;V8_USE_EXTERNAL_STARTUP_DATA;FULL_SAFE_BROWSING;SAFE_BROWSING_CSD;SAFE_BROWSING_DB_LOCAL;WEBRTC_WIN;_CRT_SECURE_NO_WARNINGS;USE_LIBPCI=1;_CRT_NONSTDC_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;DYNAMIC_ANNOTATIONS_ENABLED=1;WTF_USE_DYNAMIC_ANNOTATIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../third_party\libyuv\include;./;talk\owt\sdk\include\cpp;../;..\third_party\jsoncpp\source\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>D:\opencv\opencv2413\opencv\build\x86\vc14\lib\*.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;JINGLE_PEERCONNECTION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;JINGLE_PEERCONNECTION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;JINGLE_PEERCONNECTION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
