@@ -17,15 +17,27 @@
 #include "webrtc/base/win32socketserver.h"
 #include "webrtc/base/logging.h"
 #include "webrtc/base/profiler.h"
+#include "examples/peerconnection/client/rtc_logger.h"
 
 //bool rtc::LogMessage::thread_ = true, rtc::LogMessage::timestamp_ = true;
 
 int PASCAL wWinMain(HINSTANCE instance, HINSTANCE prev_instance,
                     wchar_t* cmd_line, int cmd_show) {
-//int main(){
+//int main(int argc, char* argv[]){
   //rtc::LogMessage* log = new rtc::LogMessage("webrtc-message-b.log", 10000, rtc::LS_INFO);
   //std::ofstream fp("webrtc-message-a.log", std::ios::app);
-  PROFILE_DUMP_ALL(rtc::LS_INFO);
+
+std::ofstream ofs;
+LoggerFiler logf(ofs);
+ofs.open("win" + logf.GetFileName());
+
+rtc::LogMessage::AddLogToStream(&logf, rtc::LS_VERBOSE);
+rtc::LogMessage::LogToDebug(rtc::LS_VERBOSE);
+// rtc::LogMessage::LogToDebug(rtc::WARNING);
+rtc::LogMessage::LogThreads(true);
+rtc::LogMessage::LogTimestamps(true);
+
+  //PROFILE_DUMP_ALL(rtc::LS_INFO);
 LOG(INFO) << __FUNCTION__ << " "
           << "test peerconnection";
   rtc::EnsureWinsockInit();
@@ -33,10 +45,10 @@ LOG(INFO) << __FUNCTION__ << " "
   rtc::ThreadManager::Instance()->SetCurrentThread(&w32_thread);
 
   rtc::WindowsCommandLineArguments win_args;
-  int argc = win_args.argc();
-  char **argv = win_args.argv();
+  int argcl = win_args.argc();
+  char **argvl = win_args.argv();
 
-  rtc::FlagList::SetFlagsFromCommandLine(&argc, argv, true);
+  rtc::FlagList::SetFlagsFromCommandLine(&argcl, argvl, true);
   if (FLAG_help) {
     rtc::FlagList::Print(NULL, false);
     return 0;
@@ -81,5 +93,6 @@ LOG(INFO) << __FUNCTION__ << " "
   }
 
   rtc::CleanupSSL();
+  ofs.close();
   return 0;
 }

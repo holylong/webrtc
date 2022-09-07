@@ -18,6 +18,7 @@
 
 #include "webrtc/api/mediastreaminterface.h"
 #include "webrtc/base/win32.h"
+#include "webrtc/api/datachannelinterface.h"
 #include "webrtc/examples/peerconnection/client/peer_connection_client.h"
 #include "webrtc/media/base/mediachannel.h"
 #include "webrtc/media/base/videocommon.h"
@@ -31,6 +32,7 @@ class MainWndCallback {
   virtual void DisconnectFromCurrentPeer() = 0;
   virtual void UIThreadCallback(int msg_id, void* data) = 0;
   virtual void Close() = 0;
+  virtual bool SendDataChannelMessage(const webrtc::DataBuffer& buffer) = 0;
  protected:
   virtual ~MainWndCallback() {}
 };
@@ -57,6 +59,9 @@ class MainWindow {
   virtual void SwitchToConnectUI() = 0;
   virtual void SwitchToPeerList(const Peers& peers) = 0;
   virtual void SwitchToStreamingUI() = 0;
+
+    virtual void OnStateChange() = 0;
+    virtual void OnMessage(const webrtc::DataBuffer& buffer) = 0;
 
   virtual void StartLocalRenderer(webrtc::VideoTrackInterface* local_video) = 0;
   virtual void StopLocalRenderer() = 0;
@@ -97,6 +102,17 @@ class MainWnd : public MainWindow {
   virtual void StopLocalRenderer();
   virtual void StartRemoteRenderer(webrtc::VideoTrackInterface* remote_video);
   virtual void StopRemoteRenderer();
+
+      virtual void OnStateChange() {  }
+  //  A data buffer was successfully received.
+  virtual void OnMessage(const webrtc::DataBuffer& buffer) {
+    
+  };
+
+  void SendDataChannelMsg() { 
+      webrtc::DataBuffer buffer("is datachannel");
+      callback_->SendDataChannelMessage(buffer);
+  }
 
   virtual void QueueUIThreadCallback(int msg_id, void* data);
 

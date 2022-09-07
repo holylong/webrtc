@@ -23,6 +23,7 @@
 #include "webrtc/media/base/fakescreencapturerfactory.h"
 #include "webrtc/base/window.h"
 #include "webrtc/modules/video_capture/video_capture_factory.h"
+#include "examples/peerconnection/client/tracer.h"
 
 // Names used for a IceCandidate JSON object.
 const char kCandidateSdpMidName[] = "sdpMid";
@@ -60,12 +61,14 @@ Conductor::Conductor(PeerConnectionClient* client, MainWindow* main_wnd)
     loopback_(false),
     client_(client),
     main_wnd_(main_wnd) {
+  ::InitializeCriticalSection(&buffer_lock_);
   client_->RegisterObserver(this);
   main_wnd->RegisterObserver(this);
 }
 
 Conductor::~Conductor() {
   ASSERT(peer_connection_.get() == NULL);
+  ::DeleteCriticalSection(&buffer_lock_);
 }
 
 bool Conductor::connection_active() const {
@@ -75,6 +78,23 @@ bool Conductor::connection_active() const {
 void Conductor::Close() {
   client_->SignOut();
   DeletePeerConnection();
+}
+
+bool Conductor::SendDataChannelMessage(const webrtc::DataBuffer& buffer) {
+  if (data_channel_.get() != nullptr) {
+    return data_channel_->Send(buffer);
+  }
+  return false;
+}
+
+bool Conductor::CreateDataChannel() {
+  ASSERT(peer_connection_.get() != NULL);
+
+  //用来发送datachannel消息
+  data_channel_ = peer_connection_->CreateDataChannel("sdl_peerconnection", nullptr);
+  if (data_channel_.get() == nullptr)
+    return false;
+  return true;
 }
 
 bool Conductor::InitializePeerConnection() {
@@ -94,7 +114,11 @@ bool Conductor::InitializePeerConnection() {
     main_wnd_->MessageBox("Error",
         "CreatePeerConnection failed", true);
     DeletePeerConnection();
+  } else {
+    if (!CreateDataChannel())
+      main_wnd_->MessageBox("Error", "CreateDataChannel Failed", true);
   }
+
   AddStreams();
   return peer_connection_.get() != NULL;
 }
@@ -133,6 +157,7 @@ bool Conductor::CreatePeerConnection(bool dtls) {
 
   peer_connection_ = peer_connection_factory_->CreatePeerConnection(
       config, &constraints, NULL, NULL, this);
+  LOG(INFO) << "peerconnection create success";
   return peer_connection_.get() != NULL;
 }
 
@@ -192,7 +217,7 @@ void Conductor::OnIceCandidate(const webrtc::IceCandidateInterface* candidate) {
     return;
   }
   jmessage[kCandidateSdpName] = sdp;
-  SendMessage(writer.write(jmessage));
+  SelfSendMessage(writer.write(jmessage));
 }
 
 //
@@ -233,28 +258,41 @@ void Conductor::OnPeerDisconnected(int id) {
 }
 
 void Conductor::OnMessageFromPeer(int peer_id, const std::string& message) {
+  SK_TRACE_FUNC(++step_);
+  //RtcAutoLock<Conductor> lock(this);
   ASSERT(peer_id_ == peer_id || peer_id_ == -1);
   ASSERT(!message.empty());
-
-  if (!peer_connection_.get()) {
+  LOG(INFO) <<  __FUNCTION__ << " step:" << step_;
+  //Lock();
+  if (!peer_connection_.get()) 
+  {
+    //LOG(INFO) << __FUNCTION__ << " step:" << step_++;
     ASSERT(peer_id_ == -1);
     peer_id_ = peer_id;
 
-    if (!InitializePeerConnection()) {
-      LOG(LS_ERROR) << "Failed to initialize our PeerConnection instance";
+    if (!InitializePeerConnection()) 
+    {
+      LOG(LS_ERROR) << "==>> Failed to initialize our PeerConnection instance";
       client_->SignOut();
       return;
+    } else {
+      LOG(INFO) << "==>> Create PeerConnecton Success";
     }
-  } else if (peer_id != peer_id_) {
+  }
+  else if (peer_id != peer_id_) 
+  {
     ASSERT(peer_id_ != -1);
     LOG(WARNING) << "Received a message from unknown peer while already in a "
                     "conversation with a different peer.";
     return;
   }
 
+  //Unlock();
+
   Json::Reader reader;
   Json::Value jmessage;
-  if (!reader.parse(message, jmessage)) {
+  if (!reader.parse(message, jmessage)) 
+  {
     LOG(WARNING) << "Received unknown message. " << message;
     return;
   }
@@ -446,6 +484,7 @@ void Conductor::DisconnectFromCurrentPeer() {
 }
 
 void Conductor::UIThreadCallback(int msg_id, void* data) {
+  SK_TRACE_FUNC(0);
   switch (msg_id) {
     case PEER_CONNECTION_CLOSED:
       LOG(INFO) << "PEER_CONNECTION_CLOSED";
@@ -485,9 +524,11 @@ void Conductor::UIThreadCallback(int msg_id, void* data) {
         delete msg;
       }
 
-      if (!peer_connection_.get())
+      if (!peer_connection_.get()) {
         peer_id_ = -1;
-
+        LOG(INFO) << "==> peer_connection disconnect";
+      }
+        
       break;
     }
 
@@ -541,14 +582,14 @@ void Conductor::OnSuccess(webrtc::SessionDescriptionInterface* desc) {
   Json::Value jmessage;
   jmessage[kSessionDescriptionTypeName] = desc->type();
   jmessage[kSessionDescriptionSdpName] = sdp;
-  SendMessage(writer.write(jmessage));
+  SelfSendMessage(writer.write(jmessage));
 }
 
 void Conductor::OnFailure(const std::string& error) {
     LOG(LERROR) << error;
 }
 
-void Conductor::SendMessage(const std::string& json_object) {
+void Conductor::SelfSendMessage(const std::string& json_object) {
   std::string* msg = new std::string(json_object);
   main_wnd_->QueueUIThreadCallback(SEND_MESSAGE_TO_PEER, msg);
 }

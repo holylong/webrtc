@@ -156,6 +156,7 @@ void PeerConnectionClient::DoConnect() {
 }
 
 bool PeerConnectionClient::SendToPeer(int peer_id, const std::string& message) {
+  LOG(INFO) << __FUNCTION__ << " ==>> Send Message To:" << peer_id;
   if (state_ != CONNECTED)
     return false;
 
@@ -173,7 +174,7 @@ bool PeerConnectionClient::SendToPeer(int peer_id, const std::string& message) {
       my_id_, peer_id, message.length());
   onconnect_data_ = headers;
   onconnect_data_ += message;
-  LOG(INFO) << onconnect_data_;
+  //LOG(INFO) << onconnect_data_;
   return ConnectControlSocket();
 }
 
@@ -258,9 +259,10 @@ void PeerConnectionClient::OnHangingGetConnect(rtc::AsyncSocket* socket) {
 
 void PeerConnectionClient::OnMessageFromPeer(int peer_id,
                                              const std::string& message) {
+  LOG(INFO) << __FUNCTION__ << " ==>> Recv Message From:" << peer_id;
   if (message.length() == (sizeof(kByeMessage) - 1) &&
       message.compare(kByeMessage) == 0) {
-    LOG(INFO) << "recv:" << message.c_str();
+    //LOG(INFO) << "recv:" << message.c_str();
     callback_->OnPeerDisconnected(peer_id);
   } else {
     callback_->OnMessageFromPeer(peer_id, message);
@@ -307,7 +309,7 @@ bool PeerConnectionClient::ReadIntoBuffer(rtc::AsyncSocket* socket,
     data->append(buffer, bytes);
   } while (true);
 
-  LOG(INFO) << "recv data:" << data->c_str();
+  //LOG(INFO) << "recv data:" << data->c_str();
   bool ret = false;
   size_t i = data->find("\r\n\r\n");
   if (i != std::string::npos) {

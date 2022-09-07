@@ -21,6 +21,8 @@
 #include "webrtc/api/peerconnectioninterface.h"
 #include "webrtc/examples/peerconnection/client/main_wnd.h"
 #include "webrtc/examples/peerconnection/client/peer_connection_client.h"
+#include "webrtc/api/datachannelinterface.h"
+#include <mutex>
 
 //#define HAVE_WEBRTC_VIDEO
 
@@ -34,6 +36,7 @@ class VideoRenderer;
 
 class Conductor
   : public webrtc::PeerConnectionObserver,
+                  public webrtc::DataChannelObserver,
     public webrtc::CreateSessionDescriptionObserver,
     public PeerConnectionClientObserver,
     public MainWndCallback {
@@ -50,6 +53,7 @@ class Conductor
 
   bool connection_active() const;
 
+
   virtual void Close();
 
  protected:
@@ -57,6 +61,8 @@ class Conductor
   bool InitializePeerConnection();
   bool ReinitializePeerConnectionForLoopback();
   bool CreatePeerConnection(bool dtls);
+  bool CreateDataChannel();
+  
   void DeletePeerConnection();
   void EnsureStreamingUI();
   void AddStreams();
@@ -73,7 +79,10 @@ class Conductor
   void OnRemoveStream(
       rtc::scoped_refptr<webrtc::MediaStreamInterface> stream) override;
   void OnDataChannel(
-      rtc::scoped_refptr<webrtc::DataChannelInterface> channel) override {}
+      rtc::scoped_refptr<webrtc::DataChannelInterface> channel) override {
+      //用来接收datachannel消息
+    channel->RegisterObserver(this);
+  }
   void OnRenegotiationNeeded() override {}
   void OnIceConnectionChange(
       webrtc::PeerConnectionInterface::IceConnectionState new_state) override{};
@@ -98,7 +107,18 @@ class Conductor
 
   virtual void OnMessageSent(int err);
 
+  virtual bool SendDataChannelMessage(const webrtc::DataBuffer& buffer);
+
   virtual void OnServerConnectionFailure();
+
+    virtual void OnStateChange() {
+    main_wnd_->OnStateChange();
+    
+    }
+  //  A data buffer was successfully received.
+    virtual void OnMessage(const webrtc::DataBuffer& buffer){
+      main_wnd_->OnMessage(buffer);
+    };
 
   //
   // MainWndCallback implementation.
@@ -118,13 +138,31 @@ class Conductor
   virtual void OnSuccess(webrtc::SessionDescriptionInterface* desc);
   virtual void OnFailure(const std::string& error);
 
+  void Lock() { ::EnterCriticalSection(&buffer_lock_); }
+
+  void Unlock() { ::LeaveCriticalSection(&buffer_lock_); }
+
+template <typename T>
+  class RtcAutoLock {
+   public:
+  explicit RtcAutoLock(T* obj) : obj_(obj) { obj_->Lock(); }
+    ~RtcAutoLock() { obj_->Unlock(); }
+
+   protected:
+    T* obj_;
+  };
+
  protected:
-  // Send a message to the remote peer.
-  void SendMessage(const std::string& json_object);
+  // Send a message to the remote peer. 代码定位老是跟windows的SendMessage搞混，改个名字
+  void SelfSendMessage(const std::string& json_object);
 
   int peer_id_;
   bool loopback_;
+  //std::mutex locker_;
+  CRITICAL_SECTION buffer_lock_;
   rtc::scoped_refptr<webrtc::PeerConnectionInterface> peer_connection_;
+  //用来发送datachannel消息
+  rtc::scoped_refptr<webrtc::DataChannelInterface> data_channel_;
   rtc::scoped_refptr<webrtc::PeerConnectionFactoryInterface>
       peer_connection_factory_;
   PeerConnectionClient* client_;
@@ -133,6 +171,8 @@ class Conductor
   std::map<std::string, rtc::scoped_refptr<webrtc::MediaStreamInterface> >
       active_streams_;
   std::string server_;
+
+  unsigned short step_{0};
 };
 
 #endif  // WEBRTC_EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_
