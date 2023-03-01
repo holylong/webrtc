@@ -185,3 +185,4 @@ jingle_peerconnection/Debug/
 /xcodebuild
 *.vcxproj.filters
 webrtc/examples/peerconnection/clientmy/webrtc-message.log 
+webrtc/win_rtc_2023*.log 

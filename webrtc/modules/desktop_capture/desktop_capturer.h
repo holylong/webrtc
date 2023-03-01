@@ -12,7 +12,7 @@
 #define WEBRTC_MODULES_DESKTOP_CAPTURE_DESKTOP_CAPTURER_H_
 
 #include <stddef.h>
-
+#include <iostream>
 #include <memory>
 
 #include "webrtc/modules/desktop_capture/desktop_frame.h"

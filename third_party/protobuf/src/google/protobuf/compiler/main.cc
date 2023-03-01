@@ -39,6 +39,11 @@
 #include <google/protobuf/compiler/csharp/csharp_generator.h>
 #include <google/protobuf/compiler/objectivec/objectivec_generator.h>
 #include <google/protobuf/compiler/js/js_generator.h>
+#include <google/protobuf/repeated_field.h>
+
+//template <typename Element>
+// const size_t google::protobuf::RepeatedField<Element>::kRepHeaderSize = 16;
+//size_t const google::protobuf::RepeatedField<Element>::kRepHeaderSize = 67;
 
 int main(int argc, char* argv[]) {
 

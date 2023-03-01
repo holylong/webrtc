@@ -21,9 +21,9 @@ extern const uint16_t kDefaultServerPort;  // From defaults.[h|cc]
 // for each platform.
 
 DEFINE_bool(help, false, "Prints this message");
-DEFINE_bool(autoconnect, true, "Connect to the server without user "
+DEFINE_bool(autoconnect, false, "Connect to the server without user "
                                 "intervention.");
-DEFINE_string(server, "172.19.0.228", "The server to connect to.");
+DEFINE_string(server, "172.19.0.152", "The server to connect to.");
 DEFINE_int(port, kDefaultServerPort,
            "The port on which the server is listening.");
 DEFINE_bool(autocall, false, "Call the first available other client on "

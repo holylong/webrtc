@@ -308,7 +308,6 @@
     <ClInclude Include="desktop_capture\differ_block.h" />
     <ClInclude Include="desktop_capture\fake_desktop_capturer.h" />
     <ClInclude Include="desktop_capture\fallback_desktop_capturer_wrapper.h" />
-    <ClInclude Include="desktop_capture\mock_desktop_capturer_callback.h" />
     <ClInclude Include="desktop_capture\mouse_cursor.h" />
     <ClInclude Include="desktop_capture\mouse_cursor_monitor.h" />
     <ClInclude Include="desktop_capture\resolution_tracker.h" />
@@ -426,7 +425,6 @@
     <ClCompile Include="desktop_capture\differ_block.cc" />
     <ClCompile Include="desktop_capture\fake_desktop_capturer.cc" />
     <ClCompile Include="desktop_capture\fallback_desktop_capturer_wrapper.cc" />
-    <ClCompile Include="desktop_capture\mock_desktop_capturer_callback.cc" />
     <ClCompile Include="desktop_capture\mouse_cursor.cc" />
     <ClCompile Include="desktop_capture\mouse_cursor_monitor_win.cc" />
     <ClCompile Include="desktop_capture\resolution_tracker.cc" />

@@ -38,6 +38,12 @@
 #include <google/protobuf/stubs/logging.h>
 #include <google/protobuf/stubs/common.h>
 
+#if 0
+template <typename Element>
+const size_t google::protobuf::RepeatedField<Element>::kRepHeaderSize = 
+(reinterpret_cast<size_t>(&reinterpret_cast<Rep*>(16)->elements[0]) - 16);
+#endif
+
 namespace google {
 namespace protobuf {
 
